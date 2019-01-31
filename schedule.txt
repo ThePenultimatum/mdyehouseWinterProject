@@ -1,0 +1,38 @@
+Jan 22-29:
+Hook up ultrasonic sensor to 1 microcontroller or RPi
+Data exploration
+Data collection
+Test quality, range of ultrasonic sensor
+
+Jan 29 - Feb 5:
+Read sensor data
+Get xbee's working (ideally two xbee's talking to each other)
+Read data from PIC32 to computer
+
+Feb 5-12:
+Add 2nd and 3rd nodes, same setup as first
+Get them to communicate measured data with xbee's
+
+Feb 12-19:
+Tests with static objects
+Tune and adjust system
+
+Feb 19-26:
+Add a mobile robot at a static location and be able to get data to and from it via xbee
+
+Feb 26 - March 5:
+Mobile robot reacts to data
+It either follows a command over radio from xbee's or aggregates info from the sensor network and acts on it to minimize some metric by testing its reaction to movements in different directions (similar to gradient descent)
+
+March 5-12:
+Robot moves to a goal location
+
+March 12-19:
+Tuning
+Next steps
+Docs
+Licenses
+Up the complexity
+More sensors, nodes, etc.
+
+
