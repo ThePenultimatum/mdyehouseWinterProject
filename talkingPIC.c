@@ -1,4 +1,5 @@
-#include <xc.h> 
+#include <stdio.h>
+#include <xc.h>
 #include "NU32.h"          // constants, funcs for startup and UART
 
 // Note this code is adapted from simplePIC.c from Northwestern University mechatronics ME-333 class
@@ -6,11 +7,11 @@
 #define MAX_MESSAGE_LENGTH 200
 
 void delay(void);
-int sendPulse(void);
+float sendPulse(void);
 
 int main(void) {
   char message[MAX_MESSAGE_LENGTH];
-  int count = 0;
+  float count = 0;
   char strToWrite[20];
   
   NU32_Startup(); // cache on, interrupts on, LED/button init, UART init
@@ -19,8 +20,8 @@ int main(void) {
     //delay();
     LATFINV = 0x0003;    // toggle LED1 and LED2; same as LATFINV = 0x3;
     count = sendPulse();
-    strToWrite = sprintf(strToWrite, "%6.4f")
-    NU32_WriteUART3(strToWrite);                     // send message back
+    sprintf(strToWrite, "%6.4f", count);
+    NU32_WriteUART3(strToWrite);                  // send message back
     NU32_WriteUART3("\r\n");                      // carriage return and newline
     NU32_LED1 = !NU32_LED1;                       // toggle the LEDs
     NU32_LED2 = !NU32_LED2;
@@ -29,12 +30,9 @@ int main(void) {
   return 0;
 }
 
-// Load the proper header for the processor
-
-// Note this code is adapted from simplePIC.c from Northwestern University mechatronics ME-333 class
-
-int sendPulse(){
-  int count = 0, j;
+float sendPulse(){
+  int j;
+  float count = 0.1; // turn this into something where I am using the SYSCLK and getting time from freq and ticks
   if (!PORTDbits.RD7) {
     // Pin D7 is the USER switch, low (FALSE) if pressed.
     LATDbits.LATD3 = 0;
