@@ -6,6 +6,7 @@
 
 #define MAX_MESSAGE_LENGTH 200
 #define WAITING 0
+#define CORE_TICKS = 40000000 // number of core ticks in 1 second, 80 MHz
 
 void delay(void);
 unsigned int sendPulse(void);
@@ -32,7 +33,7 @@ int main(void) {
     count = sendPulse();
     //if (count != 2634039641) {
       //sprintf(strToWrite, "%u",count);//"%6.4f", count);
-    sprintf(strToWrite, "%6.4f", ((float)count)/25*343/1000000000);// PORTDbits.RD4);
+    sprintf(strToWrite, "%6.4f", ((float)count)*343/CORE_TICKS);///1000000000);// PORTDbits.RD4);
     NU32_WriteUART3(strToWrite);                  // send message back
     NU32_WriteUART3("\r\n");                      // carriage return and newline
     NU32_LED1 = !NU32_LED1;                       // toggle the LEDs
