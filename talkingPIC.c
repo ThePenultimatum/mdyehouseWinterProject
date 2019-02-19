@@ -33,16 +33,16 @@ int main(void) {
   int xbee_ser_open( xbee_serial_t *serial, uint32_t baudrate);
   int xbee_ser_baudrate( xbee_serial_t *serial, uint32_t baudrate);
 
-  void NU32_WriteUART3(const char * string) {
-  while (*string != '\0') {
-    while (U3STAbits.UTXBF) {
-      ; // wait until tx buffer isn't full
-    }
-    U3TXREG = *string;
-    ++string;
+  void writeUart2(const char * string) {
+    while (*string != '\0') {
+      while (U2STAbits.UTXBF) {
+        ; // wait until tx buffer isn't full
+      }
+      U2TXREG = *string;
+      ++string;
   }
+  char *c getFrame(unsigned int count c);
 }
- // change the above uart writing schema to operate with uart2
   */
 
 
@@ -60,6 +60,10 @@ int main(void) {
     //delay();
     LATFINV = 0x0003;    // toggle LED1 and LED2; same as LATFINV = 0x3;
     count = sendPulse();
+
+    // if (getTimeFromCount(count) > abs(BASELINE_DISTANCE - EPSILON)) {
+    //   writeUart2(getFrame(count));
+    // }
     //if (count != 2634039641) {
       //sprintf(strToWrite, "%u",count);//"%6.4f", count);
     sprintf(strToWrite, "%6.4f", ((float)count)*343/CORE_TICKS);///1000000000);// PORTDbits.RD4);
