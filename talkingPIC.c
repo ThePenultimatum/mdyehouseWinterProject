@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <xc.h>
 #include "NU32.h"          // constants, funcs for startup and UART
+#include "serial.h"
 
 // Note this code is adapted from simplePIC.c from Northwestern University mechatronics ME-333 class
 
@@ -8,14 +9,42 @@
 #define WAITING 0
 #define CORE_TICKS = 40000000 // number of core ticks in 1 second, 80 MHz
 
+// #define BASELINE_DISTANCE = xxxxx;
+// #define EPSILON_DISTANCE = xxxxx;
+
 void delay(void);
 unsigned int sendPulse(void);
 unsigned int getCount(void);
 
 int main(void) {
+  NU32_Startup();
   char message[MAX_MESSAGE_LENGTH];
   unsigned int count = 0;
   char strToWrite[20];
+
+  U2MODEbits.ON = 1; // enabled uart2 for transfer of data to the xbee
+  U2MODEbits.UEN = 0b00; // only U2TX and U2RX used
+
+  /*
+  int xbee_ser_write( xbee_serial_t *serial, const void FAR *buffer,
+    int length);
+  int xbee_ser_putchar( xbee_serial_t *serial, uint8_t ch);
+  int xbee_ser_rx_flush( xbee_serial_t *serial);
+  int xbee_ser_open( xbee_serial_t *serial, uint32_t baudrate);
+  int xbee_ser_baudrate( xbee_serial_t *serial, uint32_t baudrate);
+
+  void NU32_WriteUART3(const char * string) {
+  while (*string != '\0') {
+    while (U3STAbits.UTXBF) {
+      ; // wait until tx buffer isn't full
+    }
+    U3TXREG = *string;
+    ++string;
+  }
+}
+ // change the above uart writing schema to operate with uart2
+  */
+
 
   TRISD &= 0xFFF7;       // Bit 3 of TRISD is set to 0 to set it as digital output
                          // Use this pin 51 for output to send a pulse to the US sensor
