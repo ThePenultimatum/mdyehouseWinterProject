@@ -1,3 +1,6 @@
 [submodule "xbee_ansic_library"]
 	path = xbee_ansic_library
 	url = https://github.com/ThePenultimatum/xbee_ansic_library.git
+[submodule "libxbee3"]
+	path = libxbee3
+	url = https://github.com/ThePenultimatum/libxbee3.git
