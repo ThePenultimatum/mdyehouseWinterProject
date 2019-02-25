@@ -150,7 +150,7 @@ void NU32_ReadUART2(char * message, int maxLength) {
   unsigned int timer = 0, timer0 = 0;
   char snum[20];
   // loop until you get a '\r' or '\n'
-  while(timer0 < 20000000) {
+  while(timer0 < 10) {
     if (U2STAbits.URXDA) { // if data is available
       while (timer < 80000000) {
         if (U2STAbits.URXDA) { // if data is available
@@ -182,6 +182,8 @@ void NU32_ReadUART2(char * message, int maxLength) {
   }
   // end the string
   message[num_bytes] = '\0';
+  NU32_WriteUART3(message);
+  NU32_WriteUART3("\r\nJust Printed message from uart2\r\n");
 }
 
 void NU32_ReadUART2Wait(char * message, int maxLength) {

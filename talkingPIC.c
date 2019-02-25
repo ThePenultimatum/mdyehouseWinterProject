@@ -76,10 +76,14 @@ int32_t main(void) {
     //if (count != 2634039641) {
       //sprintf(strToWrite, "%u",count);//"%6.4f", count);
     //sprintf(strToWrite, "%6.4f", ((float)count)*343/CORE_TICKS);///1000000000);// PORTDbits.RD4);
-    NU32_WriteUART3("0\r\n");                     // carriage return and newline
+    /*NU32_WriteUART3("0\r\n");                     // carriage return and newline
     NU32_ReadUART3(message, MAX_MESSAGE_LENGTH);  // get message from computer
     NU32_WriteUART3(message);                  // send message back
-    NU32_WriteUART3("\r\n");                     // carriage return and newline
+    NU32_WriteUART3("\r\n");                     // carriage return and newline*/
+    NU32_WriteUART3("Reading u2\r\n");
+    NU32_ReadUART2(message2, MAX_MESSAGE_LENGTH);
+    NU32_WriteUART3(message2);
+    NU32_WriteUART3("\r\n");
     /*NU32_WriteUART3("1\r\n");
     NU32_WriteUART2(message);
     NU32_WriteUART2("\r\n");
@@ -88,7 +92,7 @@ int32_t main(void) {
     NU32_WriteUART3("read message from uart2\r\n");
     NU32_WriteUART3(message2);
     NU32_WriteUART3("4\r\n");*/
-    int t0 = 0;
+    /*int t0 = 0;
     while(t0 < 80000000) {
       t0++;
     }
@@ -138,18 +142,7 @@ int32_t main(void) {
     NU32_WriteUART3("Written to u2\r\n");
     NU32_ReadUART2(message6, MAX_MESSAGE_LENGTH);
     NU32_WriteUART3(message6);
-    NU32_WriteUART3("\r\n");
-    //NU32_LED1 = !NU32_LED1;                       // toggle the LEDs
-    //NU32_LED2 = !NU32_LED2;
-    //}
-    //writeUART2(message);
-    //writeUART2("\r\n");
-    //int32_t i = 0;
-    //while (i < 20000000) {
-    //  Nop();
-    //}
-    //char msg[20] = 0x7E000F00010013A20040522974003132333450;
-
+    NU32_WriteUART3("\r\n");*/
   }
   return 0;
 }
