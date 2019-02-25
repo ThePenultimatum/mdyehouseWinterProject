@@ -150,9 +150,9 @@ void NU32_ReadUART2(char * message, int maxLength) {
   unsigned int timer = 0, timer0 = 0;
   char snum[20];
   // loop until you get a '\r' or '\n'
-  while(timer0 < 10) {
+  while(timer0 < 20000000) {
     if (U2STAbits.URXDA) { // if data is available
-      while (timer < 80000000) {
+      while (timer < 80000000 && (!complete)) {
         if (U2STAbits.URXDA) { // if data is available
           data = U2RXREG;      // read the data
           /*if ((data == '\n') || (data == '\r')) {
@@ -169,7 +169,7 @@ void NU32_ReadUART2(char * message, int maxLength) {
           ++num_bytes;
           // roll over if the array is too small
           if (num_bytes >= maxLength) {
-            num_bytes = 0;
+            //num_bytes = 0;
             complete = 1;
           }
         }
@@ -177,13 +177,15 @@ void NU32_ReadUART2(char * message, int maxLength) {
       }
       sprintf(snum, "timer: %d\r\n", timer);
       NU32_WriteUART3(snum);
+      sprintf(snum, "numBytes: %d\r\n", num_bytes);
+      NU32_WriteUART3(snum);
     }
     timer0++;
   }
   // end the string
   message[num_bytes] = '\0';
-  NU32_WriteUART3(message);
-  NU32_WriteUART3("\r\nJust Printed message from uart2\r\n");
+  //NU32_WriteUART3(message);
+  //NU32_WriteUART3("\r\nJust Printed message from uart2\r\n");
 }
 
 void NU32_ReadUART2Wait(char * message, int maxLength) {
@@ -218,4 +220,14 @@ void NU32_WriteUART2(const char * string) {
     U2TXREG = *string;
     ++string;
   }
+}
+
+void writeLineUART3(const char * string) {
+  NU32_WriteUART3(string);
+  NU32_WriteUART3("\r\n");  
+}
+
+void writeLineUART2(const char * string) {
+  NU32_WriteUART2(string);
+  NU32_WriteUART2("\r\n");  
 }

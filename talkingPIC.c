@@ -30,6 +30,7 @@ int32_t main(void) {
   char message6[MAX_MESSAGE_LENGTH];
   uint32_t count = 0;
   char strToWrite[20];
+  char debugline[220];
 
   //U2MODEbits.ON = 1; // enabled uart2 for transfer of data to the xbee
   //U2MODEbits.UEN = 0b00; // only U2TX and U2RX used
@@ -80,10 +81,53 @@ int32_t main(void) {
     NU32_ReadUART3(message, MAX_MESSAGE_LENGTH);  // get message from computer
     NU32_WriteUART3(message);                  // send message back
     NU32_WriteUART3("\r\n");                     // carriage return and newline*/
-    NU32_WriteUART3("Reading u2\r\n");
+    //NU32_WriteUART3("Reading u2\r\n");
     NU32_ReadUART2(message2, MAX_MESSAGE_LENGTH);
-    NU32_WriteUART3(message2);
+
+    //7E 00 0F 00 01 00 13 A2 00 40 09 16 C9 00 31 31 31 31 5D send message to unit 0
+    /*char teststr[19];
+    teststr[0] = 0x7E;
+    teststr[1] = 0x00;
+    teststr[2] = 0x0F;
+    teststr[3] = 0x00;
+    teststr[4] = 0x01;
+    teststr[5] = 0x00;
+    teststr[6] = 0x13;
+    teststr[7] = 0xA2;
+    teststr[8] = 0x00;
+    teststr[9] = 0x40;
+    teststr[10] = 0x09;
+    teststr[11] = 0x16;
+    teststr[12] = 0xC9;
+    teststr[13] = 0x00;
+    teststr[14] = 0x31;
+    teststr[15] = 0x31;
+    teststr[16] = 0x31;
+    teststr[17] = 0x31;
+    teststr[18] = 0x5D;
+    //teststr[19] = '\0';*/
+
+    sprintf(debugline, "message2: %s:", message2);
+    writeLineUART3(debugline);
+    //writeLineUART2(teststr);
+    NU32_WriteUART2("+++");
+
+    /*NU32_WriteUART3(message2);
     NU32_WriteUART3("\r\n");
+    NU32_WriteUART2(teststr);
+    NU32_WriteUART2("\r\n");*/
+    int t0 = 0;
+    while(t0 < 80000000) {
+      t0++;
+      Nop();
+    }
+    t0 = 0;
+    writeLineUART2("ATDH");
+    while(t0 < 80000000) {
+      t0++;
+      Nop();
+    }
+    t0 = 0;
     /*NU32_WriteUART3("1\r\n");
     NU32_WriteUART2(message);
     NU32_WriteUART2("\r\n");
