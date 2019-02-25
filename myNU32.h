@@ -12,5 +12,7 @@
 void NU32_Startup(void);
 void NU32_ReadUART3(char * string, int maxLength);
 void NU32_WriteUART3(const char * string);
+void NU32_ReadUART2(char * string, int maxLength);
+void NU32_WriteUART2(const char * string);
 
 #endif // NU32__H__

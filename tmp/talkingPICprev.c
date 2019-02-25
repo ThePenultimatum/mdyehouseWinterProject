@@ -78,12 +78,13 @@ int32_t main(void) {
     NU32_WriteUART3("\r\n");                     // carriage return and newline
     NU32_WriteUART3("1\r\n");
     NU32_WriteUART2(message);
+    NU32_WriteUART3("2\r\n");
     NU32_WriteUART2("\r\n");
-    NU32_WriteUART3("wrote message to uart2\r\n");
+    NU32_WriteUART3("3\r\n");
     NU32_ReadUART2(message2, MAX_MESSAGE_LENGTH);
-    NU32_WriteUART3("read message from uart2\r\n");
-    NU32_WriteUART3(message2);
     NU32_WriteUART3("4\r\n");
+    NU32_WriteUART2(message2);
+    NU32_WriteUART3("5\r\n");
     //NU32_LED1 = !NU32_LED1;                       // toggle the LEDs
     //NU32_LED2 = !NU32_LED2;
     //}
