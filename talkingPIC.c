@@ -24,6 +24,10 @@ int32_t main(void) {
   NU32_Startup();
   char message[MAX_MESSAGE_LENGTH];
   char message2[MAX_MESSAGE_LENGTH];
+  char message3[MAX_MESSAGE_LENGTH];
+  char message4[MAX_MESSAGE_LENGTH];
+  char message5[MAX_MESSAGE_LENGTH];
+  char message6[MAX_MESSAGE_LENGTH];
   uint32_t count = 0;
   char strToWrite[20];
 
@@ -76,14 +80,65 @@ int32_t main(void) {
     NU32_ReadUART3(message, MAX_MESSAGE_LENGTH);  // get message from computer
     NU32_WriteUART3(message);                  // send message back
     NU32_WriteUART3("\r\n");                     // carriage return and newline
-    NU32_WriteUART3("1\r\n");
+    /*NU32_WriteUART3("1\r\n");
     NU32_WriteUART2(message);
     NU32_WriteUART2("\r\n");
     NU32_WriteUART3("wrote message to uart2\r\n");
     NU32_ReadUART2(message2, MAX_MESSAGE_LENGTH);
     NU32_WriteUART3("read message from uart2\r\n");
     NU32_WriteUART3(message2);
-    NU32_WriteUART3("4\r\n");
+    NU32_WriteUART3("4\r\n");*/
+    int t0 = 0;
+    while(t0 < 80000000) {
+      t0++;
+    }
+    t0 = 0;
+    NU32_WriteUART2("+++");
+    while(t0 < 80000000) {
+      t0++;
+    }
+    t0 = 0;
+    NU32_WriteUART3("Written to u2\r\n");
+    NU32_ReadUART2(message2, MAX_MESSAGE_LENGTH);
+    NU32_WriteUART3(message2);
+    NU32_WriteUART3("\r\n");
+    NU32_WriteUART2("AT\r\n");
+    while(t0 < 80000000) {
+      t0++;
+    }
+    t0 = 0;
+    //NU32_WriteUART2("ATID\r\n");
+    NU32_WriteUART3("Written to u2\r\n");
+    NU32_ReadUART2(message3, MAX_MESSAGE_LENGTH);
+    NU32_WriteUART3(message3);
+    NU32_WriteUART3("\r\n");
+    NU32_WriteUART2("ATDH 2222\r\n");
+    while(t0 < 80000000) {
+      t0++;
+    }
+    t0 = 0;
+    NU32_WriteUART3("Written to u2\r\n");
+    NU32_ReadUART2(message4, MAX_MESSAGE_LENGTH);
+    NU32_WriteUART3(message4);
+    NU32_WriteUART3("\r\n");
+    NU32_WriteUART2("ATDL 1111\r\n");
+    while(t0 < 80000000) {
+      t0++;
+    }
+    t0 = 0;
+    NU32_WriteUART3("Written to u2\r\n");
+    NU32_ReadUART2(message5, MAX_MESSAGE_LENGTH);
+    NU32_WriteUART3(message5);
+    NU32_WriteUART3("\r\n");
+    NU32_WriteUART2("ATCN\r\n");
+    while(t0 < 80000000) {
+      t0++;
+    }
+    t0 = 0;
+    NU32_WriteUART3("Written to u2\r\n");
+    NU32_ReadUART2(message6, MAX_MESSAGE_LENGTH);
+    NU32_WriteUART3(message6);
+    NU32_WriteUART3("\r\n");
     //NU32_LED1 = !NU32_LED1;                       // toggle the LEDs
     //NU32_LED2 = !NU32_LED2;
     //}
