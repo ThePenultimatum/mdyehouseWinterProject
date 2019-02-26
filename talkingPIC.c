@@ -84,6 +84,8 @@ int32_t main(void) {
     NU32_ReadUART2(message2, MAX_MESSAGE_LENGTH);
     NU32_WriteUART3(message2);
     NU32_WriteUART3("\r\n");
+    NU32_WriteUART2(message2);
+    NU32_WriteUART2("\r\n");
     /*NU32_WriteUART3("1\r\n");
     NU32_WriteUART2(message);
     NU32_WriteUART2("\r\n");

@@ -149,6 +149,7 @@ void NU32_ReadUART2(char * message, int maxLength) {
   int complete = 0, num_bytes = 0;
   unsigned int timer = 0, timer0 = 0;
   char snum[20];
+  char d[20];
   // loop until you get a '\r' or '\n'
   while(timer0 < 10) {
     if (U2STAbits.URXDA) { // if data is available
@@ -166,6 +167,8 @@ void NU32_ReadUART2(char * message, int maxLength) {
             }
           }*/
           message[num_bytes] = data;
+          sprintf(d, "datahex: %x\r\n", data);
+          NU32_WriteUART3(d);
           ++num_bytes;
           // roll over if the array is too small
           if (num_bytes >= maxLength) {
