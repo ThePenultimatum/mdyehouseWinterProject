@@ -86,7 +86,7 @@ void NU32_Startup() {
 
   // turn on UART3 without an interrupt
   U2MODEbits.BRGH = 0; // set baud to NU32_DESIRED_BAUD
-  U2BRG = ((NU32_SYS_FREQ / NU32_DESIRED_BAUD2) / 16) - 1;
+  U2BRG = ((NU32_SYS_FREQ / NU32_DESIRED_BAUD_UART2) / 16) - 1;
 
   // 8 bit, no parity bit, and 1 stop bit (8N1 setup)
   U2MODEbits.PDSEL = 0;
