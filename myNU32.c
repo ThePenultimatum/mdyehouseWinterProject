@@ -153,29 +153,29 @@ void NU32_ReadUART2(char * message, int maxLength) {
   // loop until you get a '\r' or '\n'
   while(timer0 < 10) {
     if (U2STAbits.URXDA) { // if data is available
-      while (timer < 80000000) {
-        if (U2STAbits.URXDA) { // if data is available
-          data = U2RXREG;      // read the data
-          /*if ((data == '\n') || (data == '\r')) {
-            complete = 1;
-          } else {
-            message[num_bytes] = data;
-            ++num_bytes;
-            // roll over if the array is too small
-            if (num_bytes >= maxLength) {
-              num_bytes = 0;
-            }
-          }*/
+      while (timer < 80000000 && !complete) {
+        //if (U2STAbits.URXDA) { // if data is available ////////////////////////////
+        data = U2RXREG;      // read the data
+        /*if ((data == '\n') || (data == '\r')) {
+          complete = 1;
+        } else {
           message[num_bytes] = data;
-          sprintf(d, "datahex: %x\r\n", data);
-          NU32_WriteUART3(d);
           ++num_bytes;
           // roll over if the array is too small
           if (num_bytes >= maxLength) {
             num_bytes = 0;
-            complete = 1;
           }
+        }*/
+        message[num_bytes] = data;
+        sprintf(d, "datahex: %x\r\n", data);
+        NU32_WriteUART3(d);
+        ++num_bytes;
+        // roll over if the array is too small
+        if (num_bytes >= maxLength) {
+          //num_bytes = 0; ////////////// If this is here, the first byte gets set to the null terminator....at least when the loop is done, that is
+          complete = 1;
         }
+        //}
         timer++;
       }
       sprintf(snum, "timer: %d\r\n", timer);

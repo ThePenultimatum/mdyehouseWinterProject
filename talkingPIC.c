@@ -14,12 +14,6 @@
 // #define BASELINE_DISTANCE = xxxxx;
 // #define EPSILON_DISTANCE = xxxxx;
 
-void delay(void);
-uint32_t sendPulse(void);
-uint32_t getCount(void);
-//void writeUART2(const char * string);
-//void readUART2(char * message, uint32_t maxLength);
-
 int32_t main(void) {
   NU32_Startup();
   char message[MAX_MESSAGE_LENGTH];
@@ -41,15 +35,6 @@ int32_t main(void) {
   int xbee_ser_rx_flush( xbee_serial_t *serial);
   int xbee_ser_open( xbee_serial_t *serial, uint32_t baudrate);
   int xbee_ser_baudrate( xbee_serial_t *serial, uint32_t baudrate);
-
-  void writeUart2(const char * string) {
-    while (*string != '\0') {
-      while (U2STAbits.UTXBF) {
-        ; // wait until tx buffer isn't full
-      }
-      U2TXREG = *string;
-      ++string;
-  }
   char *c getFrame(unsigned int count c);
 }
   */
