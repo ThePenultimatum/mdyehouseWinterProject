@@ -18,13 +18,8 @@ int32_t main(void) {
   NU32_Startup();
   char message[MAX_MESSAGE_LENGTH];
   char message2[MAX_MESSAGE_LENGTH];
-  char message3[MAX_MESSAGE_LENGTH];
-  char message4[MAX_MESSAGE_LENGTH];
-  char message5[MAX_MESSAGE_LENGTH];
-  char message6[MAX_MESSAGE_LENGTH];
-  uint32_t count = 0;
+  uint32_t countVal = 0;
   char strToWrite[20];
-  char debugline[220];
 
   //U2MODEbits.ON = 1; // enabled uart2 for transfer of data to the xbee
   //U2MODEbits.UEN = 0b00; // only U2TX and U2RX used
@@ -60,16 +55,20 @@ int32_t main(void) {
     NU32_WriteUART3(message2);
     NU32_WriteUART3("\r\n");*/
     //////////////////NU32_WriteUART2("Hello other xbee.\r\n");
-    count = sendPulse();
+    countVal = sendPulse();
 
     //if (getTimeFromCount(count) > abs(BASELINE_DISTANCE - EPSILON)) {
     //  writeUart2(getFrame(count));
     //}
     //if (count != 2634039641) {
     //sprintf(strToWrite, "%u",count);//"%6.4f", count);
-    sprintf(strToWrite, "%6.4f", ((float)count)*343/CORE_TICKS);///1000000000);// PORTDbits.RD4);
-    NU32_WriteUART3(strToWrite);
-    NU32_WriteUART3("\r\n");
+    //count = sendPulse();
+    //if (count != 2634039641) {
+      //sprintf(strToWrite, "%u",count);//"%6.4f", count);
+    sprintf(strToWrite, "%6.4f\r\n", ((float)countVal)*343/100000000);// PORTDbits.RD4);
+    NU32_WriteUART2(strToWrite);
+    //NU32_WriteUART3(strToWrite);                  // send message back
+    //NU32_WriteUART3("\r\n"); // carriage return and newline
     //NU32_WriteUART2("\r\n");
     /*NU32_WriteUART3("1\r\n");
     NU32_WriteUART2(message);
