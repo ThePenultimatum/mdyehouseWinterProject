@@ -141,6 +141,29 @@ void NU32_WriteUART3(const char * string) {
   }
 }
 
+void NU32_ReadUART2Original(char * message, int maxLength) {
+  char data = 0;
+  int complete = 0, num_bytes = 0;
+  // loop until you get a '\r' or '\n'
+  while (!complete) {
+    if (U2STAbits.URXDA) { // if data is available
+      data = U2RXREG;      // read the data
+      if ((data == '\n') || (data == '\r')) {
+        complete = 1;
+      } else {
+        message[num_bytes] = data;
+        ++num_bytes;
+        // roll over if the array is too small
+        if (num_bytes >= maxLength) {
+          num_bytes = 0;
+        }
+      }
+    }
+  }
+  // end the string
+  message[num_bytes] = '\0';
+}
+
 // Read from UART2
 // DO NOT block other functions until you get a '\r' or '\n'
 // send the pointer to your char array and the number of elements in the array
@@ -153,7 +176,7 @@ void NU32_ReadUART2(char * message, int maxLength) {
   // loop until you get a '\r' or '\n'
   while(timer0 < 10) {
     if (U2STAbits.URXDA) { // if data is available
-      while (!complete) { //timer < 80000000 && !complete) {
+      while (timer < 80000000 && !complete) {
         //if (U2STAbits.URXDA) { // if data is available ////////////////////////////
         data = U2RXREG;      // read the data
         /*if ((data == '\n') || (data == '\r')) {
@@ -184,9 +207,9 @@ void NU32_ReadUART2(char * message, int maxLength) {
     timer0++;
   }
   // end the string
-  message[num_bytes-1] = '\0';
-  NU32_WriteUART3(message);
-  NU32_WriteUART3("\r\nJust Printed message from uart2\r\n");
+  message[num_bytes] = '\0';
+  //NU32_WriteUART3(message);
+  //NU32_WriteUART3("\r\nJust Printed message from uart2\r\n");
 }
 
 void NU32_ReadUART2Wait(char * message, int maxLength) {

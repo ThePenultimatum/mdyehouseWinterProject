@@ -65,12 +65,12 @@ int32_t main(void) {
     NU32_ReadUART3(message, MAX_MESSAGE_LENGTH);  // get message from computer
     NU32_WriteUART3(message);                  // send message back
     NU32_WriteUART3("\r\n");                     // carriage return and newline*/
-    NU32_WriteUART3("Reading u2\r\n");
+    /*NU32_WriteUART3("Reading u2\r\n");
     NU32_ReadUART2(message2, MAX_MESSAGE_LENGTH);
     NU32_WriteUART3(message2);
-    NU32_WriteUART3("\r\n");
-    NU32_WriteUART2(message2);
-    NU32_WriteUART2("\r\n");
+    NU32_WriteUART3("\r\n");*/
+    NU32_WriteUART2("Hello other xbee.\r\n");
+    //NU32_WriteUART2("\r\n");
     /*NU32_WriteUART3("1\r\n");
     NU32_WriteUART2(message);
     NU32_WriteUART2("\r\n");
