@@ -5,8 +5,7 @@
 #include "ultrasonic.h"
 
 uint32_t sendPulse(){
-  int j;
-  uint32_t start, finish;
+  uint32_t start, finish, j;
   uint32_t count; // turn this into something where I am using the SYSCLK and getting time from freq and ticks
 
   LATDbits.LATD3 = 1;
@@ -15,14 +14,14 @@ uint32_t sendPulse(){
   }
   LATDbits.LATD3 = 0;
   count = getCount();
-  char msg[20];
-  sprintf(msg, "count:%6.4f\r\n", count);
-  NU32_WriteUART3(msg);
+  //char msg[20];
+  //sprintf(msg, "count:%6.4f\r\n", count);
+  //NU32_WriteUART3(msg);
   return count;
 }
 
 void delay(void) {
-  int32_t j;
+  uint32_t j;
   for (j = 0; j < 1000000; j++) { // number is 1 million
     while(!PORTDbits.RD7) {
         ;   // Pin D7 is the USER switch, low (FALSE) if pressed.
@@ -42,5 +41,8 @@ uint32_t getCount(void){
     Nop();
   }
   fin = _CP0_GET_COUNT();
+  char msg[20];
+  //sprintf(msg, "fin-start:%d\r\n", fin-start);
+  //NU32_WriteUART3(msg);
   return fin - start;
 }

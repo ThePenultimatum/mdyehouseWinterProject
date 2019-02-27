@@ -79,7 +79,7 @@ void NU32_Startup() {
   U3STAbits.UTXEN = 1;
   U3STAbits.URXEN = 1;
   // configure hardware flow control using RTS and CTS
-  U3MODEbits.UEN = 0;//2;
+  U3MODEbits.UEN = 2;//0;//2;
 
   // enable the uart
   U3MODEbits.ON = 1;
@@ -96,7 +96,7 @@ void NU32_Startup() {
   U2STAbits.UTXEN = 1;
   U2STAbits.URXEN = 1;
   // configure hardware flow control using RTS and CTS
-  U2MODEbits.UEN = 0;
+  U2MODEbits.UEN = 2;//0; 0 = disabled, 2 = enabled
 
   // enable the uart
   U2MODEbits.ON = 1;
@@ -109,7 +109,7 @@ void NU32_Startup() {
 // send the pointer to your char array and the number of elements in the array
 void NU32_ReadUART3(char * message, int maxLength) {
   char data = 0;
-  int complete = 0, num_bytes = 0;
+  uint32_t complete = 0, num_bytes = 0;
   // loop until you get a '\r' or '\n'
   while (!complete) {
     if (U3STAbits.URXDA) { // if data is available
@@ -143,7 +143,7 @@ void NU32_WriteUART3(const char * string) {
 
 void NU32_ReadUART2Original(char * message, int maxLength) {
   char data = 0;
-  int complete = 0, num_bytes = 0;
+  uint32_t complete = 0, num_bytes = 0;
   // loop until you get a '\r' or '\n'
   while (!complete) {
     if (U2STAbits.URXDA) { // if data is available
@@ -169,8 +169,8 @@ void NU32_ReadUART2Original(char * message, int maxLength) {
 // send the pointer to your char array and the number of elements in the array
 void NU32_ReadUART2(char * message, int maxLength) {
   char data = 0;
-  int complete = 0, num_bytes = 0;
-  unsigned int timer = 0, timer0 = 0;
+  uint32_t complete = 0, num_bytes = 0;
+  uint32_t timer = 0, timer0 = 0;
   char snum[20];
   char d[20];
   // loop until you get a '\r' or '\n'
@@ -210,7 +210,7 @@ void NU32_ReadUART2(char * message, int maxLength) {
 
 void NU32_ReadUART2Wait(char * message, int maxLength) {
   char data = 0;
-  int complete = 0, num_bytes = 0;
+  uint32_t complete = 0, num_bytes = 0;
   // loop until you get a '\r' or '\n'
   while (!complete) {
     if (U2STAbits.URXDA) { // if data is available
