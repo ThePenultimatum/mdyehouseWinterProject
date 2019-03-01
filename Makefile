@@ -1,7 +1,7 @@
 XC32PATH="/opt/microchip/xc32/v2.15/bin"
 HARMONYPATH=
 NU32PATH="/home/mdyehous/gitRepos/work/mechatronics/starterCode/PIC32Quickstart"
-PORT=/dev/ttyUSB2
+PORT=/dev/ttyUSB0
 TERMEMU=
 
 #This file is used to:
