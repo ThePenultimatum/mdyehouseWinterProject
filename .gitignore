@@ -8,3 +8,5 @@
 *.dis
 *.dep
 skeleton/
+tmp/
+other/
