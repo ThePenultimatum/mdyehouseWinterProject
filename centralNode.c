@@ -11,6 +11,13 @@
 #define WAITING 0
 #define CORE_TICKS 40000000 // number of core ticks in 1 second, 80 MHz
 
+/*
+define the x and y values of all 3 sensors here
+then use them in calculation of distances
+
+use a hash table for the node measurements?
+*/
+
 // #define BASELINE_DISTANCE = xxxxx;
 // #define EPSILON_DISTANCE = xxxxx;
 
@@ -24,6 +31,8 @@ int32_t main(void) {
 
   char message[MAX_MESSAGE_LENGTH];
   char message2[MAX_MESSAGE_LENGTH];
+  char senderAddress[MAX_MESSAGE_LENGTH];
+  float distanceRead;
   uint32_t countVal = 0, j;
   char strToWrite[20];
 
@@ -36,11 +45,18 @@ int32_t main(void) {
       j++;
       Nop();
     }
-    countVal = sendPulse();
+    //countVal = sendPulse();
+    NU32_ReadUART2(message, MAX_MESSAGE_LENGTH);
+    sscanf(message, "%s: %6.4f", &senderAddress, &distanceRead);
+    //
+    NU32_WriteUART3("abc\r\n");
+    //sscanf(message, "%s: %6.4f", &senderAddress, &distanceRead);
+    //////////////// store these in hash table
+    ///////// if certain conditions met, calculate a distance and print out where that is
 
-    sprintf(strToWrite, "b:%6.4f", ((float)countVal)*343/100000000);
-    NU32_WriteUART2(strToWrite);
-    NU32_WriteUART2("\r\n");  
+    //sprintf(strToWrite, "b:%6.4f", ((float)countVal)*343/100000000);
+    //NU32_WriteUART2(strToWrite); 
+    //NU32_WriteUART2("\r\n");
   }
   return 0;
 }
