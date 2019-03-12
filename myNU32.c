@@ -96,7 +96,7 @@ void NU32_Startup() {
   U2STAbits.UTXEN = 1;
   U2STAbits.URXEN = 1;
   // configure hardware flow control using RTS and CTS
-  U2MODEbits.UEN = 2;//0; 0 = disabled, 2 = enabled
+  U2MODEbits.UEN = 0;//2;//0; 0 = disabled, 2 = enabled
 
   U2STAbits.URXISEL = 0x0; // interrupt when buffer not empty
 
@@ -122,8 +122,9 @@ void NU32_ReadUART3(char * message, int maxLength) {
         message[num_bytes] = data;
         ++num_bytes;
         // roll over if the array is too small
-        if (num_bytes >= maxLength) {
-          num_bytes = 0;
+        if (num_bytes >= 2){ //maxLength) {
+          complete = 1;
+          //num_bytes = 0;
         }
       }
     }
@@ -156,6 +157,29 @@ void NU32_WriteUART2(const char * string) {
 
 void NU32_ReadUART2(char * message, int maxLength) {
   char data = 0;
+  uint32_t complete = 0, num_bytes = 0;
+  // loop until you get a '\r' or '\n'
+  while (!complete) {
+    if (U2STAbits.URXDA) { // if data is available
+      data = U2RXREG;      // read the data
+      if ((data == '\n') || (data == '\r')) {
+        complete = 1;
+      } else {
+        message[num_bytes] = data;
+        ++num_bytes;
+        // roll over if the array is too small
+        if (num_bytes >= maxLength) {
+          num_bytes = 0;
+        }
+      }
+    }
+  }
+  // end the string
+  message[num_bytes] = '\0';
+}
+
+/*void NU32_ReadUART2(char * message, int maxLength) {
+  char data = 0;
   uint32_t complete = 0, num_bytes = 0, c = 0;
   // loop until you get a '\r' or '\n'
   while (!complete && (c < 10000) && (num_bytes <= maxLength)) { //&& c < 1000000) {
@@ -173,7 +197,7 @@ void NU32_ReadUART2(char * message, int maxLength) {
           num_bytes = 0;
         }
       }
-    }
+    }*/
     /*if (c >= 1000) {
       message[num_bytes] = '\0';
       //NU32_WriteUART3(message);
@@ -187,10 +211,10 @@ void NU32_ReadUART2(char * message, int maxLength) {
       complete = 1;
       break;
     }*/
-  }
-  // end the string
-  message[num_bytes] = '\0';
-}
+//   }
+//   // end the string
+//   message[num_bytes] = '\0';
+// }
 
 void writeLineUART3(const char * string) {
   NU32_WriteUART3(string);

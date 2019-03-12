@@ -58,7 +58,7 @@ use a hash table for the node measurements?
   IFS0bits.T2IF = 0;                // ste
 }*/
 
-void __ISR(_UART_2_VECTOR, IPL6SOFT) IntUart2Handler(void) { 
+/*void __ISR(_UART_2_VECTOR, IPL6SOFT) IntUart2Handler(void) { 
   char message[MAX_MESSAGE_LENGTH];
   if (IFS1bits.U2RXIF) {
     NU32_WriteUART3("RX interrupt\r\n");
@@ -70,9 +70,10 @@ void __ISR(_UART_2_VECTOR, IPL6SOFT) IntUart2Handler(void) {
     IFS1bits.U2TXIF = 0;
   } else if (IFS1bits.U2EIF) {
     NU32_WriteUART3("Uart error interrupt\r\n");
+    //U2STAbits.OERR = 0;
     IFS1bits.U2EIF = 0;
   }
-}
+}*/
 
 int32_t main(void) {
 
@@ -99,9 +100,13 @@ int32_t main(void) {
   IFS0bits.T2IF = 0;                // step 5: clear T2 interrupt flag
   IEC0bits.T2IE = 1;                // step 6: enable timer2 interrupt
   T2CONbits.ON = 1;        // turn on Timer2*/
-  IEC1bits.U2RXIE = 1;
+  /*IEC1bits.U2RXIE = 1;
+  IEC1bits.U2TXIE = 0;
+  U2STAbits.UTXEN = 0;
   IFS1bits.U2RXIF = 0;
-  IPC8bits.U2IP = 6;
+  IFS1bits.U2TXIF = 0;
+  IFS1bits.U2EIF = 0;
+  IPC8bits.U2IP = 6;*/
   __builtin_enable_interrupts();    // step 7: CPU interrupts enabled
 
   char message[MAX_MESSAGE_LENGTH];
@@ -111,16 +116,58 @@ int32_t main(void) {
   uint32_t countVal = 0, j;
   char strToWrite[20];
 
-  TRISD &= 0xFFF7;       // Bit 3 of TRISD is set to 0 to set it as digital output
+  //TRISD &= 0xFFF7;       // Bit 3 of TRISD is set to 0 to set it as digital output
                          // Use this pin 51 for output to send a pulse to the US sensor
   LATDbits.LATD3 = 0;
   
   while (1) {
+    NU32_WriteUART3("Reading uart2\r\n");
+    NU32_ReadUART2(message, MAX_MESSAGE_LENGTH);
+    NU32_WriteUART3(message);
     /*while (j < 40000) {
       j++;
       Nop();
     }*/
-    //NU32_WriteUART3("eabc\r\n");
+
+    /*NU32_WriteUART3("*********************\r\n");
+
+    sprintf(strToWrite, "Contains data flag %d\r\n", U2STAbits.URXDA);
+    NU32_WriteUART3(strToWrite);
+
+    sprintf(strToWrite, "When interrupts are generated flag %d\r\n", U2STAbits.URXISEL);
+    NU32_WriteUART3(strToWrite);
+
+    sprintf(strToWrite, "No Pending transmission in TX buffer flag %d\r\n", U2STAbits.TRMT);
+    NU32_WriteUART3(strToWrite);
+
+    sprintf(strToWrite, "Transmit buffer full flag %d\r\n", U2STAbits.UTXBF);
+    NU32_WriteUART3(strToWrite);
+
+    sprintf(strToWrite, "Transmissions enabled flag %d\r\n", U2STAbits.UTXEN);
+    NU32_WriteUART3(strToWrite);
+
+    sprintf(strToWrite, "Recieving enabled flag %d\r\n", U2STAbits.URXEN);
+    NU32_WriteUART3(strToWrite);
+
+    sprintf(strToWrite, "RX flag %d\r\n", IFS1bits.U2RXIF);
+    NU32_WriteUART3(strToWrite);
+
+    sprintf(strToWrite, "TX flag %d\r\n", IFS1bits.U2TXIF);
+    NU32_WriteUART3(strToWrite);
+
+    sprintf(strToWrite, "E flag %d\r\n", IFS1bits.U2EIF);
+    NU32_WriteUART3(strToWrite);
+
+    sprintf(strToWrite, "OERR flag %d\r\n", U2STAbits.OERR);
+    NU32_WriteUART3(strToWrite);
+
+    sprintf(strToWrite, "FERR flag %d\r\n", U2STAbits.FERR);
+    NU32_WriteUART3(strToWrite);
+
+    sprintf(strToWrite, "PERR flag %d\r\n", U2STAbits.PERR);
+    NU32_WriteUART3(strToWrite);
+
+    NU32_WriteUART3("************************\r\n");*/
     //countVal = sendPulse();
     //NU32_ReadUART2(message, MAX_MESSAGE_LENGTH);
     //sscanf(message, "%s: %6.4f", &senderAddress, &distanceRead);
