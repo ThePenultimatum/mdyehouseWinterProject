@@ -68,10 +68,36 @@ int32_t main(void) {
       //sprintf(strToWrite, "%u",count);//"%6.4f", count);
     //sprintf(strToWrite, "%6.4f\r\n", ((float)countVal)*343/100000000);// PORTDbits.RD4);
     //NU32_WriteUART2(strToWrite);
-    //NU32_ReadUART2Original(message, MAX_MESSAGE_LENGTH);
-    delay();
-    NU32_WriteUART2("a: 12324.2342");
-    NU32_WriteUART2(":\r\n");
+
+    //////////////// Receiver code below
+    char senderAddress[MAX_MESSAGE_LENGTH];
+    char distanceString[MAX_MESSAGE_LENGTH];
+    float distanceRead;
+
+    NU32_ReadUART2(message, MAX_MESSAGE_LENGTH);
+
+    sscanf(message, "%s %g", &senderAddress, &distanceRead);
+    
+    NU32_WriteUART3(message);
+    NU32_WriteUART3("\r\n");
+    NU32_WriteUART3(senderAddress);
+    NU32_WriteUART3("\r\n");
+    sprintf(distanceString, "%6.4f", distanceRead);
+    NU32_WriteUART3(distanceString);
+    NU32_WriteUART3("\r\n***\r\n");
+    //////////////// Receiver code above
+
+    //////////////// Sender code below
+    /*delay();
+    countVal = sendPulse();
+
+    sprintf(strToWrite, "b %6.4f", ((float)countVal)*343/100000000);
+    NU32_WriteUART2(strToWrite);
+    NU32_WriteUART2("\r\n");*/
+    //////////////// Sender code above
+
+    //NU32_WriteUART2("a: 12324.2342");
+    //NU32_WriteUART2(":\r\n");
     //NU32_WriteUART3(strToWrite);                  // send message back
     //NU32_WriteUART3("\r\n"); // carriage return and newline
     //NU32_WriteUART2("\r\n");
