@@ -54,9 +54,12 @@ int32_t main(void) {
       nodesDists[senderId] = distanceRead;
       xpos = newX(x0, y0, nodesDists[1], x1, y1, nodesDists[2], x2, y2, nodesDists[3]);
       ypos = newY(x0, y0, nodesDists[1], x1, y1, nodesDists[2], x2, y2, nodesDists[3]);
-      NU32_WriteUART3(message);
+      //NU32_WriteUART3(message);
+      //NU32_WriteUART3("\r\n");
+      sprintf(strToWrite, "x: %6.4f, y: %6.4f\r\n", xpos, ypos);
+      //NU32_WriteUART3("Got new position\r\n");
+      NU32_WriteUART3(strToWrite);
       NU32_WriteUART3("\r\n");
-      NU32_WriteUART3("Got new position\r\n");
     }
     
     //NU32_WriteUART3(message);
