@@ -47,9 +47,13 @@ int32_t main(void) {
 
     //////////////// Sender code below
     delay();
+    delay();
+    delay();
+    delay();
+    delay();
     countVal = sendPulse();
 
-    sprintf(strToWrite, "b %6.4f", ((float)countVal)*343/100000000);
+    sprintf(strToWrite, "0 %6.4f", ((float)countVal)*343/100000000);
     NU32_WriteUART2(strToWrite);
     NU32_WriteUART2("\r\n");
     //////////////// Sender code above
