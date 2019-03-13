@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "myNU32.h"          // constants, funcs for startup and UART
-#include "./libxbee3/include/xbee.h"
+//#include "./libxbee3/include/xbee.h"
 #include "ultrasonic.h"
 //#include "./xbee_ansic_library/include/xbee/serial.h"
 

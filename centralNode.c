@@ -22,9 +22,20 @@ int32_t main(void) {
   uint32_t countVal = 0;
   char strToWrite[20];
   char senderAddress[MAX_MESSAGE_LENGTH];
+  int senderId;
   char distanceString[MAX_MESSAGE_LENGTH];
   float distanceRead;
-
+  float nodesDists[3];
+  float xpos, ypos;
+  x0 = 1;
+  x1 = 2;
+  x2 = 3;
+  y0 = 0;
+  y1 = 3;
+  y2 = 5;
+  nodesDists[0] = 1;
+  nodesDists[1] = 1;
+  nodesDists[2] = 1;
 
   TRISD &= 0xFFF7;       // Bit 3 of TRISD is set to 0 to set it as digital output
                          // Use this pin 51 for output to send a pulse to the US sensor
@@ -35,7 +46,14 @@ int32_t main(void) {
 
     NU32_ReadUART2(message, MAX_MESSAGE_LENGTH);
 
-    sscanf(message, "%s %g", &senderAddress, &distanceRead);
+    sscanf(message, "%d %g", &senderId, &distanceRead);
+
+    if ((senderId > 0) && (senderId < 3)) {
+      nodesDists[senderAddress] = distanceRead;
+      xpos = newX(x0, y0, nodesDists[0], x1, y1 nodesDists[1], x2, y2, nodesDists[2]);
+      ypos = newY(x0, y0, nodesDists[0], x1, y1 nodesDists[1], x2, y2, nodesDists[2]);
+      NU32_WriteUART3("Got new position\r\n");
+    }
     
     //NU32_WriteUART3(message);
     //NU32_WriteUART3("\r\n");
