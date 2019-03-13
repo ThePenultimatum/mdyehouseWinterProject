@@ -6,5 +6,5 @@
 	// x = (CE - FB)/(EA - BD) 
 	// y = (CD - AF)/(BD - AE)
 // x1, y1, r1, x2, y2, r2, x3, y3, r3
-float newX(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
-float newY(uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t);
+float newX(float, float, float, float, float, float, float, float, float);
+float newY(float, float, float, float, float, float, float, float, float);

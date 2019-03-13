@@ -22,11 +22,12 @@ int32_t main(void) {
   uint32_t countVal = 0;
   char strToWrite[20];
   char senderAddress[MAX_MESSAGE_LENGTH];
-  int senderId;
+  uint32_t senderId;
   char distanceString[MAX_MESSAGE_LENGTH];
   float distanceRead;
   float nodesDists[3];
   float xpos, ypos;
+  float x0, y0, x1, y1, x2, y2;
   x0 = 1;
   x1 = 2;
   x2 = 3;
@@ -49,9 +50,9 @@ int32_t main(void) {
     sscanf(message, "%d %g", &senderId, &distanceRead);
 
     if ((senderId > 0) && (senderId < 3)) {
-      nodesDists[senderAddress] = distanceRead;
-      xpos = newX(x0, y0, nodesDists[0], x1, y1 nodesDists[1], x2, y2, nodesDists[2]);
-      ypos = newY(x0, y0, nodesDists[0], x1, y1 nodesDists[1], x2, y2, nodesDists[2]);
+      nodesDists[senderId] = distanceRead;
+      xpos = newX(x0, y0, nodesDists[0], x1, y1, nodesDists[1], x2, y2, nodesDists[2]);
+      ypos = newY(x0, y0, nodesDists[0], x1, y1, nodesDists[1], x2, y2, nodesDists[2]);
       NU32_WriteUART3("Got new position\r\n");
     }
     
