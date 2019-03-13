@@ -8,4 +8,6 @@
 *.dis
 *.dep
 skeleton/
+tmp/
+other/
 workspace/
