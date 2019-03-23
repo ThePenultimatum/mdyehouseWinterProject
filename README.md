@@ -132,11 +132,6 @@ This is currently not used but will be more heavily leveraged during the transit
 
 This directory contains assorted documents related to the initial development of this project.
 
-### Resources:
-
-* XBee Data sheet: https://www.sparkfun.com/datasheets/Wireless/Zigbee/XBee-Datasheet.pdf
-* Notes on trilateration: https://math.stackexchange.com/questions/884807/find-x-location-using-3-known-x-y-location-using-trilateration
-
 ### trilateration.c
 
 This contains code for trilateration given initial node positions and distances from nodes.
@@ -149,12 +144,25 @@ This contains code for interfacing with the ultrasonic sensor and reading data f
 
 This is for interfacing with the XBee units via the PIC to read and write relevant settings. Currently, the only use is to read an identification value to assign to the nodes as an address for use in data structuring over RF.
 
+## Resources:
+
+* XBee Data sheet: https://www.sparkfun.com/datasheets/Wireless/Zigbee/XBee-Datasheet.pdf
+* Notes on trilateration: https://math.stackexchange.com/questions/884807/find-x-location-using-3-known-x-y-location-using-trilateration
+
 ## Contributing
 
 If contributing to the modifications in our project here, please follow the following steps:
 * Fork the repository
 * Add your modifications to either the dev branch or a branch off of the dev branch
 * Make a pull request with informative descriptions
+
+## Ongoing Development
+
+Current work:
+* Additional sensor input
+* Multiple sets of three nodes
+* API mode support
+* Distributed computation (no central node)
 
 ## Author
 
