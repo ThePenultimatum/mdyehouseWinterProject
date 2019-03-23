@@ -1,4 +1,4 @@
-# Sensor Network for Mobile Robot Localization
+# A DIY Sensor Network for Mobile Robot Localization
 **Mark Dyehouse**
 
 *Northwestern University*
@@ -20,6 +20,7 @@ The ultrasonic sensors are hooked up and receive a >=5 millisecond pulse of 5V f
 * Wire for connecting components (and wire-strippers)
 * Soldering equipment
 * 4+ breadboards or something with which to connect components
+* 1+ XBee development board
 
 ### HC-SR04 Measurements:
 
@@ -53,9 +54,53 @@ y = (CD - AF)/(BD - AE)
 
 ### Sensor Signals
 
-In order to acheive a distance measurement using the HC-SR04 ultrasonic sensors, the sensor must be powered with 5V to VCC, grounded, and receive a high signal pulse for greater than 5 milliseconds. This signal is sent to the trig pin (short for "trigger") to initialize the sensor's sending of the ultrasonic pulses. The result is a signal received on the echo pin. The signal is high for the period of time during which a return signal has not been received by the HC-SR04. This 
+In order to acheive a distance measurement using the HC-SR04 ultrasonic sensors, the sensor must be powered with 5V to VCC, grounded, and receive a high signal pulse for greater than 5 milliseconds. This signal is sent to the trig pin (short for "trigger") to initialize the sensor's sending of the ultrasonic pulses. The result is a signal received on the echo pin. The signal is high for the period of time during which a return signal has not been received by the HC-SR04. This must be read and timed by a sensor node, but the length of time the signal is active directly corellates to the time of flight of the sound that leaves the sensor and arrives back at the sensor. So this tells us that the time sensed is 2 times the distance between the sensor and the object detected divided by the speed of sound at the locale in which the sensor is measuring. Here, that is Evanston, IL in winter and spring temperatures and humidity. Gathering data allowed me to tune the sensors from a base estimate of the speed of sound in order to get accurate measurements with signal-orthogonal surfaces within a few centimeters at distances of up to several meters. This tuning method will be required for your own use of the system.
+* Find the average speed of sound in your area at the time of year which you would like to use it
+* Use this as a starting point and take measurements with known distances
+* Edit the distance calculation function to use your own sound constant for calculations
 
+### NU32 Communication
 
+All communication can be done over UART. However, since multiple types of communication are necessary for the central node, I have chosen UART2 and UART3. UART3 is used for communication with a host computer for debugging and further processing while UART2 is used for communication with XBee units which I will discuss more below.
+
+Signal pulses can be sent with a buffered digital output. I use pin 51 (D3) for the buffered digital output and D4 to read the response as digital input. I chose these since neither of them conflicted with other needed pins.
+
+For communication with the XBee units, I use UART2, which uses pins F4, F5, B14, and B8 for Data-Out (DOUT), Data-In (DIN), Clear-To-Send (CTS), and Ready-To-Send (RTS). The latter two coordinate hardware flow control between the PIC32 and the XBee unit. The pair must have pins connected to their opposing pairs. Output from the PIC goes to DIN on the XBee. Input to the PIC goes to DOUT on the XBee. CTS on the PIC goes to RTS on the XBee. RTS on the PIC goes to CTS on the XBee.
+
+Using CTS and RTS simplifies the reading and writing to UART. If these are not used and hardware flow-control is not enabled on the PIC and on the XBee, then care must be taken to read the associated UART flags and clear the appropriate buffers. Using hardware flow-control greatly simplifies this communication.
+
+### XBee RF Units
+
+XBee RF units send and receive data over radio. They have two operating modes, AT and API. AT mode allows the units to send and receive any data written to UART. API mode enforces a structure of packets. With this enforced structure comes many benefits, however. Direct sending between XBee units depending on address is allowed under this circumstance. Otherwise, the communication casts a wide net when communicating with all other units having a certain range of address. This is controlled by the DL (destination address low) and MY (my 16-bit source address) settings on the XBee. In AT mode, only two sets of addresses can communicate with each other and must have complementary values of MY and DL. (One possessing DL=0, MY=1 and the other possessing DL=1, MY=0 for example). These settings are not exclusive to XBee units and may be reused however, allowing for a many-unit network in AT mode.
+
+XCTU is a software which allows a user to directly read and update settings on the XBee units when they are connected to a computer via a development board.
+
+Baud rate is another important factor in communication between XBees and between an XBee and a computer. The source and sink must be reading the data at the same baud rate, or they will not be able to understand the data. For simplicity, I chose 9600 baud for this project. Higher baud is available.
+
+Beyond baud, the units must be on the same Channel (the CH setting) and have the same PAN ID (the ID setting).
+
+For the purpose of this project, I use the 802.1.5.4 firmware for the XBees. This can be changed through XCTU as well.
+
+Once this is all done, the PIC will be able to read from and write to the XBee.
+
+### Design
+
+The nodes must be placed such that they can sense an object between them and compute its location relative to them. Using trilateration requires that the minimum is three sensors. Using equilateral triangles for placement of nodes together simplifies the geometry of the ranges. In this project, one sensor is currently used at each node.
+
+Due to the limitations mentioned in the measurment section for the HC-SR04 sensors, this limits the area of full-vision measurement (the space which is visible by all nodes) to the center of the triangle. The effective area of tracking is 4.65% of the area of the triangle. This is quite small unless a large side-length is chosen. I was not able to measure over large side-length setups, so I opted to design a higher area-ratio setup. Adding more sensors in a fanned array gives 19.6% and 48.5% area of the whole triangle for two and three sensors per node respectively. This complicates the data processing but not by much. One more digital input pin per sensor will be required. Then, when any of the sensors on a node sense an object, that distance will be considered dominant. If approximations are used for the parts of the triangular arena which are visible by less than three nodes, then a higher visible area ratio can be acheived.
+
+For simple side-length ratios and diagrams describing the effective areas, refer to the images in the images directory. A circuit diagram for an edge node may also be found there. The central node is the same except without the ultrasonic sensor.
+
+There are three areas which can be sensed:
+* All three nodes
+    - This is in the central arena of full-visibility where all three sensor angle fans intersect.
+* Two nodes
+    - Small areas around the central arena of full-vision
+    - More data can be extrapolated depending on which sensor has a shorter distance measurement or can be approximated to be along the edge of the central full-vision arena for speed and simplicity.
+* One node
+    - Long path in front of a node pointed toward the center
+    - This can be approximated as a point on a ring within the entire triangular arena.
+    - Choosing a point between the node and the center of the triangle is the simplest approximation although a crude one.
 
 ## File Structure
 
