@@ -164,6 +164,13 @@
 // #define BASELINE_DISTANCE = xxxxx;
 // #define EPSILON_DISTANCE = xxxxx;
 
+int32_t minInt(int32_t a, int32_t b) {
+  if (b < a) {
+    return b;
+  }
+  return a;
+}
+
 int32_t main(void) {
 
   NU32_Startup();
@@ -174,19 +181,35 @@ int32_t main(void) {
 
   char message[MAX_MESSAGE_LENGTH];
   char message2[MAX_MESSAGE_LENGTH];
-  uint32_t countVal = 0, j;
+  //uint32_t countVal = 0, j;
+  uint32_t countVal = 0, countVal0 = 0, countVal1 = 0, countVal2 = 0, countVal3 = 0, j;
   char strToWrite[20];
 
-  TRISD &= 0xFFF7;       // Bit 3 of TRISD is set to 0 to set it as digital output
-                         // Use this pin 51 for output to send a pulse to the US sensor
+  //TRISD &= 0xFFF7;       // Bit 3 of TRISD is set to 0 to set it as digital output
+                         // Use this pin 51 D3 for output to send a pulse to the US sensor
+                         // with additional 3 sensors, use D5 pin 53, D8 pin 42, D10 pin 44 as output as well
+                         // Another method could be to use the same output pin but wait
+                         // beyond an expected time for measurement
+  TRISD &= 0xFAD7;
   LATDbits.LATD3 = 0;
+  LATDbits.LATD5 = 0;
+  LATDbits.LATD8 = 0;
+  LATDbits.LATD10 = 0;
   
   while (1) {
-    while (j < 400000) {
-      j++;
-      Nop();
+    _CP0_SET_COUNT(0);
+    while (_CP0_GET_COUNT() < 4000000) {
     }
-    countVal = sendPulse();
+    /*countVal0 = sendPulseToPin(&(LATDbits.LATD3), &(LATDbits.LATD4));
+    countVal1 = sendPulseToPin(&(LATDbits.LATD5), &(LATDbits.LATD6));
+    countVal2 = sendPulseToPin(&(LATDbits.LATD8), &(LATDbits.LATD9));
+    countVal3 = sendPulseToPin(&(LATDbits.LATD10), &(LATDbits.LATD11));*/
+    countVal0 = sendPulseToPinD3();
+    countVal1 = sendPulseToPinD5();
+    countVal2 = sendPulseToPinD8();
+    countVal3 = sendPulseToPinD10();
+
+    countVal = minInt(minInt(minInt(countVal0, countVal1), countVal2), countVal3);
 
     sprintf(strToWrite, "b:%6.4f", ((float)countVal)*343/100000000);
     NU32_WriteUART2(strToWrite);

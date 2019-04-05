@@ -97,7 +97,7 @@ void NU32_Startup() {
   U2STAbits.URXEN = 1;
   // configure hardware flow control using RTS and CTS
 
-  U2MODEbits.UEN = 0;//2;//0; 0 = disabled, 2 = enabled
+  //U2MODEbits.UEN = 0;//2;//0; 0 = disabled, 2 = enabled
 
   U2MODEbits.UEN = 2;
 
