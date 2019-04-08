@@ -218,3 +218,8 @@ uint32_t getCountFromPinD11(void){
   //NU32_WriteUART3(msg);
   return fin - start;
 }
+
+// numbers here taken from calibration data, that is in an image with chart and best fit line in images directory
+float getDistFromCounts(uint32_t counts) {
+  return (((float) counts) * 0.0000036 + 0.0431);
+}

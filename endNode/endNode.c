@@ -198,20 +198,21 @@ int32_t main(void) {
   
   while (1) {
     _CP0_SET_COUNT(0);
-    while (_CP0_GET_COUNT() < 4000000) {
+    while (_CP0_GET_COUNT() < 40000000) {
+      ;
     }
-    /*countVal0 = sendPulseToPin(&(LATDbits.LATD3), &(LATDbits.LATD4));
-    countVal1 = sendPulseToPin(&(LATDbits.LATD5), &(LATDbits.LATD6));
-    countVal2 = sendPulseToPin(&(LATDbits.LATD8), &(LATDbits.LATD9));
-    countVal3 = sendPulseToPin(&(LATDbits.LATD10), &(LATDbits.LATD11));*/
+    // countVal0 = sendPulseToPin(&(LATDbits.LATD3), &(LATDbits.LATD4));
+    // countVal1 = sendPulseToPin(&(LATDbits.LATD5), &(LATDbits.LATD6));
+    // countVal2 = sendPulseToPin(&(LATDbits.LATD8), &(LATDbits.LATD9));
+    // countVal3 = sendPulseToPin(&(LATDbits.LATD10), &(LATDbits.LATD11));
     countVal0 = sendPulseToPinD3();
     countVal1 = sendPulseToPinD5();
     countVal2 = sendPulseToPinD8();
     countVal3 = sendPulseToPinD10();
 
-    countVal = minInt(minInt(minInt(countVal0, countVal1), countVal2), countVal3);
+    countVal = minInt(minInt(minInt(countVal0, countVal1), countVal2), countVal3);//minInt(countVal0, countVal0);//minInt(minInt(minInt(countVal0, countVal1), countVal2), countVal3);
 
-    sprintf(strToWrite, "b:%6.4f", ((float)countVal)*343/100000000);
+    sprintf(strToWrite, "b:%6.4f", getDistFromCounts(countVal));
     NU32_WriteUART2(strToWrite);
     NU32_WriteUART2("\r\n");  
   }

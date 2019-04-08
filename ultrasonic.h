@@ -13,3 +13,4 @@ uint32_t sendPulseToPinD8(void);
 uint32_t getCountFromPinD9(void);
 uint32_t sendPulseToPinD10(void);
 uint32_t getCountFromPinD11(void);
+float getDistFromCounts(uint32_t);

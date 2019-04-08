@@ -68,15 +68,15 @@ int32_t main(void) {
   float yvalToUse;
   float outerx;
   float outery;
-  static float x1 = 0.0;
-  static float y1 = 0.0;
-  static float x2 = 2.0;
-  static float y2 = 0.0;
-  static float x3 = 1;
-  static float y3 = sqrt(3);
-  volatile float r1 = 1.0;
-  volatile float r2 = 1.0;
-  volatile float r3 = 1.0;
+  static float x1 = 1.0; // x_a
+  static float y1 = sqrt(3); // y_a
+  static float x2 = 2.0; // x_b
+  static float y2 = 0.0; // y_b
+  static float x3 = 0.0; // x_c
+  static float y3 = 0.0; // y_c
+  volatile float r1 = 1.0; // r_a
+  volatile float r2 = 1.0; // r_b
+  volatile float r3 = 1.0; // r_c
 
   //TRISD &= 0xFFF7;       // Bit 3 of TRISD is set to 0 to set it as digital output
                          // Use this pin 51 for output to send a pulse to the US sensor
@@ -92,15 +92,15 @@ int32_t main(void) {
 
 
     switch (senderAddress[0]) {
-      case '1': {
+      case 'a': { // 1
         r1 = distanceRead;
         break;
       }
-      case '2': {
+      case 'b': { // 2
         r2 = distanceRead;
         break;
       }
-      case '3': {
+      case 'c': { // 3
         r3 = distanceRead;
         break;
       }
