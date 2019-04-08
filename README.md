@@ -35,6 +35,8 @@ These range measurements are most accurate with orthogonal surfaces and decrease
 
 Due to the angular range limitations on these sensors, the ideal setup includes angling multiple sensors in conjunction and fusing the data from them.
 
+![Calibration data with best-fit line for distance measurement](images/calibrationData.png)
+
 ### Trilateration summary:
 
 Trilateration is related to triangulation but different in that it does not use angles. Instead, it uses distances. These can be thought of as radii of circles around three initial, known points. These are our edge nodes in this project. This architecture can be repeated in many different adjacent or overlapping triangles. Since we have three circles and three distances, we can find the intersection between the three. It is important to consider that there may not be three good measurements, and this will bring to the forefront a flow of measurement possibilities. For now, we will only look at having three good measurements. The known positions are of the nodes at locations (x_i, y_i) for each node with index i.
